@@ -28,6 +28,10 @@
 %       raw_pose_jacobian - Compute the pose Jacobian without taking into account base's and end-effector's rigid transformations.
 %       raw_pose_jacobian_derivative - Compute the pose Jacobian derivative without taking into account base's and end-effector's rigid transformations.
 %       set_effector - Set an arbitrary end-effector rigid transformation with respect to the last frame in the kinematic chain.
+%       get_dh_parameters - Return a vector containing the DH parameters.
+%       get_dh_parameter -  Return the DH parameter of the ith joint.
+%       set_dh_parameters - Set the DH parameters.
+%       set_dh_parameter -  Set the DH parameter of the ith joint.
 % See also DQ_SerialManipulator.
 
 % (C) Copyright 2020-2023 DQ Robotics Developers
@@ -66,10 +70,12 @@
 %
 %     3. Juan Jose Quiroz Omana (juanjqo@g.ecc.u-tokyo.ac.jp)
 %        - Added some modifications discussed at #75 (https://github.com/dqrobotics/matlab/pull/75)
-%          to define DQ_SerialManipulator as an abstract class.           
+%          to define DQ_SerialManipulator as an abstract class.   
+%        - Added the following methods: get_dh_parameter, get_dh_parameters,
+%          set_dh_parameter, and set_dh_parameters.
 
 classdef DQ_SerialManipulatorDH < DQ_SerialManipulator
-    properties
+    properties (Access = protected)
         theta,d,a,alpha;
     end
     
@@ -198,7 +204,102 @@ classdef DQ_SerialManipulatorDH < DQ_SerialManipulator
             obj.set_joint_types(A(5,:));
         end
         
-    
+       function ret = get_dh_parameters(obj, parameterType)
+            % This method returns a vector containing the DH parameters.
+            % Usage: get_dh_parameters(parameterType)
+            %           parameterType: Parameter type, which corresponds to
+            %                          "THETA", "D", "A", or "ALPHA".
+            arguments
+               obj
+               parameterType DQ_DHParameter              
+            end
+
+            switch parameterType
+                case DQ_DHParameter.THETA
+                    ret = obj.theta;
+                case DQ_DHParameter.D
+                    ret = obj.d;
+                case DQ_DHParameter.A
+                    ret = obj.a;
+                case DQ_DHParameter.ALPHA
+                    ret = obj.alpha;                    
+            end            
+        end
+
+        function ret = get_dh_parameter(obj, parameterType, ith_joint)
+            % This method returns the DH parameter of the ith joint.
+            % Usage: get_dh_parameter(parameterType, ith_joint)
+            %           parameterType: Parameter type, which corresponds to
+            %                          "THETA", "D", "A", or "ALPHA".
+            %           ith_joint: Joint number.
+            arguments
+               obj
+               parameterType DQ_DHParameter 
+               ith_joint int32
+            end
+
+            switch parameterType
+                case DQ_DHParameter.THETA
+                    ret = obj.theta(ith_joint);
+                case DQ_DHParameter.D
+                    ret = obj.d(ith_joint);
+                case DQ_DHParameter.A
+                    ret = obj.a(ith_joint);
+                case DQ_DHParameter.ALPHA
+                    ret = obj.alpha(ith_joint);                    
+            end 
+        end
+
+        function set_dh_parameters(obj, parameterType, vector_parameters)
+            % This method sets the DH parameters.
+            % Usage: set_dh_parameters(parameterType, vector_parameters)
+            %           parameterType: Parameter type, which corresponds to
+            %                          "THETA", "D", "A", or "ALPHA".
+            %           vector_parameters: Vector containing the new
+            %                              parameters.
+            arguments
+               obj
+               parameterType DQ_DHParameter   
+               vector_parameters double
+            end
+            
+            switch parameterType
+                case DQ_DHParameter.THETA
+                    obj.theta(ith_joint, :) =  vector_parameters;
+                case DQ_DHParameter.D
+                    obj.d(ith_joint, :)     =  vector_parameters;
+                case DQ_DHParameter.A
+                    obj.a(ith_joint, :)     =  vector_parameters;
+                case DQ_DHParameter.ALPHA
+                    obj.alpha(ith_joint, :) =  vector_parameters;                  
+            end 
+        end
+
+        function set_dh_parameter(obj, parameterType, ith_joint, parameter)
+            % This method sets the DH parameter of the ith joint.
+            % Usage: set_dh_parameters(parameterType, vector_parameters)
+            %           parameterType: Parameter type, which corresponds to
+            %                          "THETA", "D", "A", or "ALPHA".
+            %           ith_joint: Joint number.
+            %           parameter: The new parameter.
+            arguments
+               obj
+               parameterType DQ_DHParameter 
+               ith_joint int32
+               parameter double
+            end
+
+            switch parameterType
+                case DQ_DHParameter.THETA
+                    obj.theta(ith_joint, ith_joint) =  parameter;
+                case DQ_DHParameter.D
+                    obj.d(ith_joint, ith_joint)     =  parameter;
+                case DQ_DHParameter.A
+                    obj.a(ith_joint, ith_joint)     =  parameter;
+                case DQ_DHParameter.ALPHA
+                    obj.alpha(ith_joint, ith_joint) =  parameter;                  
+            end 
+        end
         
     end
 end
