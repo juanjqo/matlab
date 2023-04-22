@@ -265,13 +265,13 @@ classdef DQ_SerialManipulatorDH < DQ_SerialManipulator
             
             switch parameterType
                 case DQ_DHParameter.THETA
-                    obj.theta(ith_joint, :) =  vector_parameters;
+                    obj.theta    =  vector_parameters;
                 case DQ_DHParameter.D
-                    obj.d(ith_joint, :)     =  vector_parameters;
+                    obj.d        =  vector_parameters;
                 case DQ_DHParameter.A
-                    obj.a(ith_joint, :)     =  vector_parameters;
+                    obj.a        =  vector_parameters;
                 case DQ_DHParameter.ALPHA
-                    obj.alpha(ith_joint, :) =  vector_parameters;                  
+                    obj.alpha    =  vector_parameters;                  
             end 
         end
 
@@ -291,13 +291,13 @@ classdef DQ_SerialManipulatorDH < DQ_SerialManipulator
 
             switch parameterType
                 case DQ_DHParameter.THETA
-                    obj.theta(ith_joint, ith_joint) =  parameter;
+                    obj.theta(ith_joint) =  parameter;
                 case DQ_DHParameter.D
-                    obj.d(ith_joint, ith_joint)     =  parameter;
+                    obj.d(ith_joint)     =  parameter;
                 case DQ_DHParameter.A
-                    obj.a(ith_joint, ith_joint)     =  parameter;
+                    obj.a(ith_joint)     =  parameter;
                 case DQ_DHParameter.ALPHA
-                    obj.alpha(ith_joint, ith_joint) =  parameter;                  
+                    obj.alpha(ith_joint) =  parameter;                  
             end 
         end
         
