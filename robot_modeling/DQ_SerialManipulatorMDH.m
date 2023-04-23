@@ -28,10 +28,10 @@
 %       raw_pose_jacobian - Compute the pose Jacobian without taking into account base's and end-effector's rigid transformations.
 %       raw_pose_jacobian_derivative - Compute the pose Jacobian derivative without taking into account base's and end-effector's rigid transformations.
 %       set_effector - Set an arbitrary end-effector rigid transformation with respect to the last frame in the kinematic chain.
-%       get_dh_parameters - Return a vector containing the DH parameters.
-%       get_dh_parameter -  Return the DH parameter of the ith joint.
-%       set_dh_parameters - Set the DH parameters.
-%       set_dh_parameter -  Set the DH parameter of the ith joint.
+%       get_parameters - Return a vector containing the DH parameters.
+%       get_parameter -  Return the DH parameter of the ith joint.
+%       set_parameters - Set the DH parameters.
+%       set_parameter -  Set the DH parameter of the ith joint.
 % See also DQ_SerialManipulator.
 
 % (C) Copyright 2020-2023 DQ Robotics Developers
@@ -68,8 +68,8 @@
 %     3. Juan Jose Quiroz Omana (juanjqo@g.ecc.u-tokyo.ac.jp)
 %        - Created this file. Implemented the case for prismatic joints
 %          in method get_w().
-%        - Added the following methods: get_dh_parameter, get_dh_parameters,
-%          set_dh_parameter, and set_dh_parameters.
+%        - Added the following methods: get_parameter, get_parameters,
+%          set_parameter, and set_parameters.
 
 classdef DQ_SerialManipulatorMDH < DQ_SerialManipulator
     properties (Access = protected)
@@ -195,9 +195,9 @@ classdef DQ_SerialManipulatorMDH < DQ_SerialManipulator
             obj.set_joint_types(A(5,:));
         end
 
-        function ret = get_dh_parameters(obj, parameterType)
+        function ret = get_parameters(obj, parameterType)
             % This method returns a vector containing the DH parameters.
-            % Usage: get_dh_parameters(parameterType)
+            % Usage: get_parameters(parameterType)
             %           parameterType: Parameter type, which corresponds to
             %                          "THETA", "D", "A", or "ALPHA".
             arguments
@@ -217,9 +217,9 @@ classdef DQ_SerialManipulatorMDH < DQ_SerialManipulator
             end            
         end
 
-        function ret = get_dh_parameter(obj, parameterType, ith_joint)
+        function ret = get_parameter(obj, parameterType, ith_joint)
             % This method returns the DH parameter of the ith joint.
-            % Usage: get_dh_parameter(parameterType, ith_joint)
+            % Usage: get_parameter(parameterType, ith_joint)
             %           parameterType: Parameter type, which corresponds to
             %                          "THETA", "D", "A", or "ALPHA".
             %           ith_joint: Joint number.
@@ -241,9 +241,9 @@ classdef DQ_SerialManipulatorMDH < DQ_SerialManipulator
             end 
         end
 
-        function set_dh_parameters(obj, parameterType, vector_parameters)
+        function set_parameters(obj, parameterType, vector_parameters)
             % This method sets the DH parameters.
-            % Usage: set_dh_parameters(parameterType, vector_parameters)
+            % Usage: set_parameters(parameterType, vector_parameters)
             %           parameterType: Parameter type, which corresponds to
             %                          "THETA", "D", "A", or "ALPHA".
             %           vector_parameters: Vector containing the new
@@ -266,9 +266,9 @@ classdef DQ_SerialManipulatorMDH < DQ_SerialManipulator
             end 
         end
 
-        function set_dh_parameter(obj, parameterType, ith_joint, parameter)
+        function set_parameter(obj, parameterType, ith_joint, parameter)
             % This method sets the DH parameter of the ith joint.
-            % Usage: set_dh_parameters(parameterType, vector_parameters)
+            % Usage: set_parameters(parameterType, vector_parameters)
             %           parameterType: Parameter type, which corresponds to
             %                          "THETA", "D", "A", or "ALPHA".
             %           ith_joint: Joint number.
